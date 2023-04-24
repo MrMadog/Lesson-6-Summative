@@ -10,6 +10,10 @@ namespace Lesson_6___Summative
 
         Rectangle smileyRect;
 
+
+        private AnimatedSprite animatedSprite;
+
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -35,7 +39,8 @@ namespace Lesson_6___Summative
 
             // TODO: use this.Content to load your game content here
 
-            smileyTexture = Content.Load<Texture2D>("SmileyWalk");
+            Texture2D texture = Content.Load<Texture2D>("SmileyWalk");
+            animatedSprite = new AnimatedSprite(texture, 4, 4);
         }
 
         protected override void Update(GameTime gameTime)
@@ -45,6 +50,8 @@ namespace Lesson_6___Summative
 
             // TODO: Add your update logic here
 
+            animatedSprite.Update();
+
             base.Update(gameTime);
         }
 
@@ -53,9 +60,8 @@ namespace Lesson_6___Summative
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            _spriteBatch.Begin();
-            _spriteBatch.Draw(smileyTexture, smileyRect, Color.White);
-            _spriteBatch.End();
+
+            animatedSprite.Draw(_spriteBatch, new Vector2(400, 200));
 
             base.Draw(gameTime);
         }
