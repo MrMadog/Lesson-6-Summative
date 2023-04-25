@@ -1,18 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Lesson_6___Summative
 {
     public class Game1 : Game
     {
-        Texture2D smileyTexture;
+        List<Texture2D> dinoTextures;
+        Texture2D dinoSpritesheet;
 
-        Rectangle smileyRect;
+        int dinoIndex;
 
+        Rectangle dinoRect;
 
-        private AnimatedSprite animatedSprite;
-
+        MouseState mouseState, prevMouseState;
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -28,7 +30,13 @@ namespace Lesson_6___Summative
         {
             // TODO: Add your initialization logic here
 
-            smileyRect = new Rectangle(50, 50, 100, 100);
+            _graphics.PreferredBackBufferWidth = 800;
+            _graphics.PreferredBackBufferHeight = 600;
+            _graphics.ApplyChanges();
+
+            dinoRect = new Rectangle(300, 50, 100, 100);
+            dinoTextures = new List<Texture2D>();
+            dinoIndex = 0;
 
             base.Initialize();
         }
@@ -39,8 +47,30 @@ namespace Lesson_6___Summative
 
             // TODO: use this.Content to load your game content here
 
-            Texture2D texture = Content.Load<Texture2D>("SmileyWalk");
-            animatedSprite = new AnimatedSprite(texture, 4, 4);
+            dinoSpritesheet = Content.Load<Texture2D>("dino_sprites");
+
+            Texture2D cropTexture;
+            Rectangle sourceRect;
+
+            int width = dinoSpritesheet.Width / 24;
+            int height = dinoSpritesheet.Height / 1;
+
+            for (int y = 1; y < 1; y++)
+            {
+                for (int x = 1; x < 24; x++)
+                {
+                    sourceRect = new Rectangle(x * width, y * height, width, height);
+                    cropTexture = new Texture2D(GraphicsDevice, width, height);
+
+                    Color[] data = new Color[width * height];
+                    dinoSpritesheet.GetData(0, sourceRect, data, 0, data.Length);
+
+                    cropTexture.SetData(data);
+
+                    if (dinoTextures.Count < 24)
+                        dinoTextures.Add(cropTexture);
+                }
+            }
         }
 
         protected override void Update(GameTime gameTime)
@@ -50,7 +80,11 @@ namespace Lesson_6___Summative
 
             // TODO: Add your update logic here
 
-            animatedSprite.Update();
+            if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+                dinoIndex -= 1;
+
+            else if (mouseState.RightButton == ButtonState.Pressed && prevMouseState.RightButton == ButtonState.Released)
+                dinoIndex += 1;
 
             base.Update(gameTime);
         }
@@ -60,8 +94,9 @@ namespace Lesson_6___Summative
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
-            animatedSprite.Draw(_spriteBatch, new Vector2(400, 200));
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(dinoTextures[dinoIndex], dinoRect, Color.White);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
