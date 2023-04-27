@@ -145,17 +145,17 @@
 /processorParam:TextureFormat=Color
 /build:_11_background.png
 
-#begin dino_sprites.png
+#begin ../../../Resources/dino_sprites.png
 /importer:TextureImporter
 /processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyColor=0,0,0,255
 /processorParam:ColorKeyEnabled=True
 /processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:dino_sprites.png
+/build:../../../Resources/dino_sprites.png;dino_sprites.png
 
 #begin SmileyWalk.png
 /importer:TextureImporter

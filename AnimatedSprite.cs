@@ -5,42 +5,62 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System.Reflection.Metadata;
 
 namespace Lesson_6___Summative
 {
     public class AnimatedSprite
     {
-        public Texture2D Texture { get; set; }
-        public int Rows { get; set; }
-        public int Columns { get; set; }
-        private int currentFrame;
-        private int totalFrames;
+        public List<Texture2D> dinoTextures;
+        public Texture2D dinoSpritesheet;
+        public int frameStart { get; set; }
+        public int frameEnd { get; set; }
 
-        public AnimatedSprite(Texture2D texture, int rows, int columns)
+
+        public AnimatedSprite(int start, int end)
         {
-            Texture = texture;
-            Rows = rows;
-            Columns = columns;
-            currentFrame = 0;
-            totalFrames = Rows * Columns;
+            frameStart = start;
+            frameEnd = end;
+        }
+
+        public void Initialize()
+        {
+            dinoTextures = new List<Texture2D>();
+        }
+
+        public void LoadContent()
+        {
+
+            dinoSpritesheet = Content.Load<Texture2D>("dino_sprites");
+
+            Texture2D cropTexture;
+            Rectangle sourceRect;
+
+            int width = dinoSpritesheet.Width / 24;
+            int height = dinoSpritesheet.Height;
+
+
+            for (int x = 5; x < 10; x++)
+            {
+                sourceRect = new Rectangle(x * width, 0, width, height);
+                cropTexture = new Texture2D(GraphicsDevice, width, height);
+
+                Color[] data = new Color[width * height];
+                dinoSpritesheet.GetData(0, sourceRect, data, 0, data.Length);
+
+                cropTexture.SetData(data);
+
+                dinoTextures.Add(cropTexture);
+            }
         }
 
         public void Update()
         {
-            currentFrame++;
-            if (currentFrame == totalFrames)
-                currentFrame = 0;
+            
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 location)
         {
-            int width = Texture.Width / Columns;
-            int height = Texture.Height / Rows;
-            int row = (int)((float)currentFrame / (float)Columns);
-            int column = currentFrame % Columns;
-
-            Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
-            Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
 
             spriteBatch.Begin();
             spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);

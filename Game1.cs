@@ -20,8 +20,6 @@ namespace Lesson_6___Summative
 
         Rectangle dinoRect;
 
-        MouseState mouseState;
-
         Vector2 dinoSpeed;
 
         private GraphicsDeviceManager _graphics;
@@ -42,7 +40,7 @@ namespace Lesson_6___Summative
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.ApplyChanges();
 
-            dinoRect = new Rectangle(-100, 600, 48, 48);
+            dinoRect = new Rectangle(-100, 600, 72, 72);
             dinoTextures = new List<Texture2D>();
             dinoIndex = 0;
 
@@ -99,13 +97,12 @@ namespace Lesson_6___Summative
 
         protected override void Update(GameTime gameTime)
         {
-            mouseState = Mouse.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             // TODO: Add your update logic here
 
-            dinoIndex += 0.1;
+            dinoIndex += 0.15;
 
             if (dinoIndex >= dinoTextures.Count - 0.5)
                 dinoIndex = 0;
@@ -117,14 +114,22 @@ namespace Lesson_6___Summative
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
+            _spriteBatch.Draw(backgroundTexture, bgRect, Color.White);
+            _spriteBatch.Draw(distantClouds2Texture, bgRect, Color.White);
+            _spriteBatch.Draw(distantClouds1Texture, bgRect, Color.White);
+            _spriteBatch.Draw(cloudsTexture, bgRect, Color.White);
+            _spriteBatch.Draw(hugeCloudsTexture, bgRect, Color.White);
+            _spriteBatch.Draw(hill2Texture, bgRect, Color.White);
+            _spriteBatch.Draw(hill1Texture, bgRect, Color.White);
+            _spriteBatch.Draw(bushesTexture, bgRect, Color.White);
+            _spriteBatch.Draw(distantTreesTexture, bgRect, Color.White);
+            _spriteBatch.Draw(treesAndBushesTexture, bgRect, Color.White);
             _spriteBatch.Draw(groundTexture, bgRect, Color.White);
-            //continue on rest of background...VV
-
 
             _spriteBatch.Draw(dinoTextures[(int)Math.Round(dinoIndex)], dinoRect, Color.White);
             _spriteBatch.End();
