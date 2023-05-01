@@ -16,6 +16,8 @@ namespace Lesson_6___Summative
         public int frameStart { get; set; }
         public int frameEnd { get; set; }
 
+        public double dinoIndex;
+        Rectangle dinoRect;
 
         public AnimatedSprite(int start, int end)
         {
@@ -26,12 +28,13 @@ namespace Lesson_6___Summative
         public void Initialize()
         {
             dinoTextures = new List<Texture2D>();
+
+            dinoRect = new Rectangle(100, 600, 72, 72);
         }
 
-        public void LoadContent()
+        public void Animation(GraphicsDevice graphicsDevice)
         {
-
-            dinoSpritesheet = Content.Load<Texture2D>("dino_sprites");
+            dinoTextures = new List<Texture2D>();
 
             Texture2D cropTexture;
             Rectangle sourceRect;
@@ -40,10 +43,10 @@ namespace Lesson_6___Summative
             int height = dinoSpritesheet.Height;
 
 
-            for (int x = 5; x < 10; x++)
+            for (int x = frameStart; x < frameEnd; x++)
             {
                 sourceRect = new Rectangle(x * width, 0, width, height);
-                cropTexture = new Texture2D(GraphicsDevice, width, height);
+                cropTexture = new Texture2D(graphicsDevice, width, height);
 
                 Color[] data = new Color[width * height];
                 dinoSpritesheet.GetData(0, sourceRect, data, 0, data.Length);
@@ -59,12 +62,10 @@ namespace Lesson_6___Summative
             
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 location)
+        public void Draw(SpriteBatch spriteBatch, Rectangle dinoRect)
         {
 
-            spriteBatch.Begin();
-            spriteBatch.Draw(Texture, destinationRectangle, sourceRectangle, Color.White);
-            spriteBatch.End();
+            spriteBatch.Draw(dinoTextures[(int)Math.Round(dinoIndex)], dinoRect, Color.White);
         }
     }
 }
