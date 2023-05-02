@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Numerics;
-using System.Reflection;
 
 namespace Lesson_6___Summative
 {
@@ -20,15 +18,14 @@ namespace Lesson_6___Summative
 
         Rectangle buttonRect;
 
-        Rectangle bgRect;
-
         double dinoIndex;
 
         Rectangle dinoRect;
 
-        //Vector2 dinoSpeed;
+        Vector2 dinoSpeed;
 
-        AnimatedSprite animatedSprite;
+        Rectangle bgRect1, bgRect2, bgRect3, bgRect4, bgRect5, bgRect6, bgRect7, bgRect8, bgRect9, bgRect10, bgRect11;
+        Vector2 bgSpeed1, bgSpeed2, bgSpeed3, bgSpeed4, bgSpeed5, bgSpeed6, bgSpeed7, bgSpeed8, bgSpeed9, bgSpeed10, bgSpeed11;
 
         MouseState mouseState;
         enum Screen
@@ -64,17 +61,27 @@ namespace Lesson_6___Summative
             dinoTextures = new List<Texture2D>();
             dinoIndex = 0;
 
-            //dinoSpeed = new Vector2(1, 0);
+            dinoSpeed = new Vector2(1, 0);
 
-            bgRect = new Rectangle(0, 0, 1280, 720);
+            bgSpeed1 = new Vector2(-2, 0);
+            bgSpeed2 = new Vector2(-1, 0);
 
-            animatedSprite = new AnimatedSprite(5, 10);
+            bgRect1 = new Rectangle(0, 0, 1280, 720);
+            bgRect2 = new Rectangle(0, 0, 1280, 720);
+            bgRect3 = new Rectangle(0, 0, 1280, 720);
+            bgRect4 = new Rectangle(0, 0, 1280, 720);
+            bgRect5 = new Rectangle(0, 0, 1280, 720);
+            bgRect6 = new Rectangle(0, 0, 1280, 720);
+            bgRect7 = new Rectangle(0, 0, 1280, 720);
+            bgRect8 = new Rectangle(0, 0, 1280, 720);
+            bgRect9 = new Rectangle(0, 0, 1280, 720);
+            bgRect10  = new Rectangle(0, 0, 1280, 720);
+            bgRect11  = new Rectangle(0, 0, 1280, 720);
+
 
             screen = Screen.Intro;
 
             buttonRect = new Rectangle(200, 200, 405, 195);
-
-            mouse = new Point(mouseState.X, mouseState.Y);
 
             base.Initialize();
         }
@@ -103,7 +110,7 @@ namespace Lesson_6___Summative
 
             mousePos = Content.Load<SpriteFont>("mouse_pos");
 
-            /*
+            
             Texture2D cropTexture;
             Rectangle sourceRect;
 
@@ -123,15 +130,19 @@ namespace Lesson_6___Summative
 
                 dinoTextures.Add(cropTexture);
             }
-            */
+            
         }
 
         protected override void Update(GameTime gameTime)
         {
             // TODO: Add your update logic here
 
+            mouseState = Mouse.GetState();
+
             int x = mouseState.X;
             int y = mouseState.Y;
+
+            mouse = new Point(mouseState.X, mouseState.Y);
 
             if (screen == Screen.Intro)
             {
@@ -152,7 +163,15 @@ namespace Lesson_6___Summative
                 if (dinoIndex >= dinoTextures.Count - 0.5)
                     dinoIndex = 0;
 
-                //dinoRect.X += (int)dinoSpeed.X;
+                dinoRect.X += (int)dinoSpeed.X;
+
+                bgRect1.X += (int)bgSpeed1.X;
+                bgRect2.X += (int)bgSpeed2.X;
+
+                if (bgRect1.Right <= 0)
+                {
+                    bgRect1 = new Rectangle(0, 0, 1280, 720);
+                }
             }
 
             else if (screen == Screen.Outro)
@@ -177,19 +196,19 @@ namespace Lesson_6___Summative
 
             else if (screen == Screen.Game)
             {
-                _spriteBatch.Draw(backgroundTexture, bgRect, Color.White);
-                _spriteBatch.Draw(distantClouds2Texture, bgRect, Color.White);
-                _spriteBatch.Draw(distantClouds1Texture, bgRect, Color.White);
-                _spriteBatch.Draw(cloudsTexture, bgRect, Color.White);
-                _spriteBatch.Draw(hugeCloudsTexture, bgRect, Color.White);
-                _spriteBatch.Draw(hill2Texture, bgRect, Color.White);
-                _spriteBatch.Draw(hill1Texture, bgRect, Color.White);
-                _spriteBatch.Draw(bushesTexture, bgRect, Color.White);
-                _spriteBatch.Draw(distantTreesTexture, bgRect, Color.White);
-                _spriteBatch.Draw(treesAndBushesTexture, bgRect, Color.White);
-                _spriteBatch.Draw(groundTexture, bgRect, Color.White);
+                _spriteBatch.Draw(backgroundTexture, bgRect11, Color.White);
+                _spriteBatch.Draw(distantClouds2Texture, bgRect10, Color.White);
+                _spriteBatch.Draw(distantClouds1Texture, bgRect9, Color.White);
+                _spriteBatch.Draw(cloudsTexture, bgRect8, Color.White);
+                _spriteBatch.Draw(hugeCloudsTexture, bgRect7, Color.White);
+                _spriteBatch.Draw(hill2Texture, bgRect6, Color.White);
+                _spriteBatch.Draw(hill1Texture, bgRect5, Color.White);
+                _spriteBatch.Draw(bushesTexture, bgRect4, Color.White);
+                _spriteBatch.Draw(distantTreesTexture, bgRect3, Color.White);
+                _spriteBatch.Draw(treesAndBushesTexture, bgRect2, Color.White);
+                _spriteBatch.Draw(groundTexture, bgRect1, Color.White);
 
-                //animatedSprite.Draw(_spriteBatch, new Rectangle());
+                _spriteBatch.Draw(dinoTextures[(int)Math.Round(dinoIndex)], dinoRect, Color.White);
 
             }
             else if (screen == Screen.Outro)
