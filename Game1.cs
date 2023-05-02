@@ -40,6 +40,7 @@ namespace Lesson_6___Summative
 
         Point mouse;
 
+        SpriteFont mousePos;
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -73,7 +74,7 @@ namespace Lesson_6___Summative
 
             buttonRect = new Rectangle(200, 200, 405, 195);
 
-            mouse = new Point(x, y);
+            mouse = new Point(mouseState.X, mouseState.Y);
 
             base.Initialize();
         }
@@ -99,6 +100,8 @@ namespace Lesson_6___Summative
             backgroundTexture = Content.Load<Texture2D>("_11_background");
 
             button = Content.Load<Texture2D>("start_button");
+
+            mousePos = Content.Load<SpriteFont>("mouse_pos");
 
             /*
             Texture2D cropTexture;
@@ -169,6 +172,7 @@ namespace Lesson_6___Summative
             if (screen == Screen.Intro)
             {
                 _spriteBatch.Draw(button, buttonRect, Color.White);
+                _spriteBatch.DrawString(mousePos, $"{mouseState.X}, {mouseState.Y}", new Vector2(50, 150), Color.Black);
             }
 
             else if (screen == Screen.Game)

@@ -157,6 +157,13 @@
 /processorParam:TextureFormat=Color
 /build:../../../Resources/dino_sprites.png;dino_sprites.png
 
+#begin mouse_pos.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:mouse_pos.spritefont
+
 #begin SmileyWalk.png
 /importer:TextureImporter
 /processor:TextureProcessor
