@@ -20,6 +20,8 @@ namespace Lesson_6___Summative
 
         double dinoIndex;
 
+        List<BackgroundParralax> backgrounds;
+
         Rectangle dinoRect;
 
         Vector2 dinoSpeed;
@@ -53,6 +55,8 @@ namespace Lesson_6___Summative
         {
             // TODO: Add your initialization logic here
 
+            backgrounds = new List<BackgroundParralax>();
+
             _graphics.PreferredBackBufferWidth = 1280;
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.ApplyChanges();
@@ -63,10 +67,8 @@ namespace Lesson_6___Summative
 
             dinoSpeed = new Vector2(1, 0);
 
-            bgSpeed1 = new Vector2(-2, 0);
             bgSpeed2 = new Vector2(-1, 0);
 
-            bgRect1 = new Rectangle(0, 0, 1280, 720);
             bgRect2 = new Rectangle(0, 0, 1280, 720);
             bgRect3 = new Rectangle(0, 0, 1280, 720);
             bgRect4 = new Rectangle(0, 0, 1280, 720);
@@ -84,6 +86,14 @@ namespace Lesson_6___Summative
             buttonRect = new Rectangle(200, 200, 405, 195);
 
             base.Initialize();
+
+            backgrounds.Add(new BackgroundParralax(distantClouds2Texture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
+
+
+
+
+
+
         }
 
         protected override void LoadContent()
@@ -160,11 +170,17 @@ namespace Lesson_6___Summative
             {
                 dinoIndex += 0.15;
 
+                //all i need for updating background vvv
+                backgrounds[0].Update();
+
+
                 if (dinoIndex >= dinoTextures.Count - 0.5)
                     dinoIndex = 0;
 
                 dinoRect.X += (int)dinoSpeed.X;
 
+
+                // speeds and edge detection into class
                 bgRect1.X += (int)bgSpeed1.X;
                 bgRect2.X += (int)bgSpeed2.X;
 
