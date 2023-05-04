@@ -26,8 +26,8 @@ namespace Lesson_6___Summative
 
         Vector2 dinoSpeed;
 
-        Rectangle bgRect1, bgRect2, bgRect3, bgRect4, bgRect5, bgRect6, bgRect7, bgRect8, bgRect9, bgRect10, bgRect11;
-        Vector2 bgSpeed1, bgSpeed2, bgSpeed3, bgSpeed4, bgSpeed5, bgSpeed6, bgSpeed7, bgSpeed8, bgSpeed9, bgSpeed10, bgSpeed11;
+        Rectangle bgRect;
+
 
         MouseState mouseState;
         enum Screen
@@ -67,32 +67,24 @@ namespace Lesson_6___Summative
 
             dinoSpeed = new Vector2(1, 0);
 
-            bgSpeed2 = new Vector2(-1, 0);
-
-            bgRect2 = new Rectangle(0, 0, 1280, 720);
-            bgRect3 = new Rectangle(0, 0, 1280, 720);
-            bgRect4 = new Rectangle(0, 0, 1280, 720);
-            bgRect5 = new Rectangle(0, 0, 1280, 720);
-            bgRect6 = new Rectangle(0, 0, 1280, 720);
-            bgRect7 = new Rectangle(0, 0, 1280, 720);
-            bgRect8 = new Rectangle(0, 0, 1280, 720);
-            bgRect9 = new Rectangle(0, 0, 1280, 720);
-            bgRect10  = new Rectangle(0, 0, 1280, 720);
-            bgRect11  = new Rectangle(0, 0, 1280, 720);
-
-
             screen = Screen.Intro;
+
+            bgRect = new Rectangle(0, 0, 1280, 720);
 
             buttonRect = new Rectangle(200, 200, 405, 195);
 
             base.Initialize();
 
             backgrounds.Add(new BackgroundParralax(distantClouds2Texture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
-
-
-
-
-
+            backgrounds.Add(new BackgroundParralax(distantClouds1Texture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(cloudsTexture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(hugeCloudsTexture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(hill2Texture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(hill1Texture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(bushesTexture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(distantTreesTexture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(treesAndBushesTexture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(groundTexture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
 
         }
 
@@ -171,23 +163,17 @@ namespace Lesson_6___Summative
                 dinoIndex += 0.15;
 
                 //all i need for updating background vvv
-                backgrounds[0].Update();
+
+                for (int i = 0; i < 10; i++)
+                    backgrounds[i].Update();
+
+
 
 
                 if (dinoIndex >= dinoTextures.Count - 0.5)
                     dinoIndex = 0;
 
                 dinoRect.X += (int)dinoSpeed.X;
-
-
-                // speeds and edge detection into class
-                bgRect1.X += (int)bgSpeed1.X;
-                bgRect2.X += (int)bgSpeed2.X;
-
-                if (bgRect1.Right <= 0)
-                {
-                    bgRect1 = new Rectangle(0, 0, 1280, 720);
-                }
             }
 
             else if (screen == Screen.Outro)
@@ -212,17 +198,10 @@ namespace Lesson_6___Summative
 
             else if (screen == Screen.Game)
             {
-                _spriteBatch.Draw(backgroundTexture, bgRect11, Color.White);
-                _spriteBatch.Draw(distantClouds2Texture, bgRect10, Color.White);
-                _spriteBatch.Draw(distantClouds1Texture, bgRect9, Color.White);
-                _spriteBatch.Draw(cloudsTexture, bgRect8, Color.White);
-                _spriteBatch.Draw(hugeCloudsTexture, bgRect7, Color.White);
-                _spriteBatch.Draw(hill2Texture, bgRect6, Color.White);
-                _spriteBatch.Draw(hill1Texture, bgRect5, Color.White);
-                _spriteBatch.Draw(bushesTexture, bgRect4, Color.White);
-                _spriteBatch.Draw(distantTreesTexture, bgRect3, Color.White);
-                _spriteBatch.Draw(treesAndBushesTexture, bgRect2, Color.White);
-                _spriteBatch.Draw(groundTexture, bgRect1, Color.White);
+                _spriteBatch.Draw(backgroundTexture, bgRect, Color.White);
+
+                foreach (BackgroundParralax background in backgrounds)
+                    background.Draw(_spriteBatch);
 
                 _spriteBatch.Draw(dinoTextures[(int)Math.Round(dinoIndex)], dinoRect, Color.White);
 
