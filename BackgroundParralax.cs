@@ -14,26 +14,25 @@ namespace Lesson_6___Summative
         Rectangle _locationRectb;
 
         // _speed into _location to locationRect
-        Vector2 _speed;
+        double _speed;
         Vector2 _location;
         Texture2D _texture;
 
-        public BackgroundParralax(Texture2D texture, Vector2 speed, Rectangle locationRect)
+        public BackgroundParralax(Texture2D texture, double speed, Rectangle locationRect)
         {
             _locationRecta = locationRect;
             _locationRectb = locationRect;
             _speed = speed;
             _texture = texture;
+
+            _location.X = _locationRecta.X;
         }
 
         public void Update()
         {
-            _speed = new Vector2((float)0.1, 0);
+            _location.X += (float)_speed;
 
-            _location = (int)Math.Round(_speed.X, 1);
-
-
-            _locationRecta.X += (int)_location.X;
+            _locationRecta.X = (int)Math.Round(_location.X);
             _locationRectb.X = _locationRecta.X + 1280;
 
             if (_locationRecta.Right < 0)
@@ -45,8 +44,5 @@ namespace Lesson_6___Summative
             spriteBatch.Draw(_texture, _locationRecta, Color.White);
             spriteBatch.Draw(_texture, _locationRectb, Color.White);
         }
-
-
-
     }
 }

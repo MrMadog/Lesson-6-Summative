@@ -74,17 +74,16 @@ namespace Lesson_6___Summative
             buttonRect = new Rectangle(200, 200, 405, 195);
 
             base.Initialize();
-
-            backgrounds.Add(new BackgroundParralax(distantClouds2Texture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(distantClouds1Texture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(cloudsTexture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(hugeCloudsTexture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(hill2Texture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(hill1Texture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(bushesTexture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(distantTreesTexture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(treesAndBushesTexture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(groundTexture, new Vector2(-2, 0), new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(distantClouds2Texture, 0, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(distantClouds1Texture, 0, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(cloudsTexture, 0, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(hugeCloudsTexture, 0, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(hill2Texture, 0, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(hill1Texture, 0, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(bushesTexture, 0, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(distantTreesTexture, 0, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(treesAndBushesTexture, 0, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(groundTexture, -3, new Rectangle(0, 0, 1280, 720)));
 
         }
 
