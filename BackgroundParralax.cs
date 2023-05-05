@@ -32,6 +32,7 @@ namespace Lesson_6___Summative
 
             _location = (int)Math.Round(_speed.X, 1);
 
+
             _locationRecta.X += (int)_location.X;
             _locationRectb.X = _locationRecta.X + 1280;
 
