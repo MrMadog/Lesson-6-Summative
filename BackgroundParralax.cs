@@ -36,7 +36,7 @@ namespace Lesson_6___Summative
             _locationRectb.X = _locationRecta.X + 1280;
 
             if (_locationRecta.Right < 0)
-                _locationRecta.X = 0;
+                _location.X = 0;
         }
 
         public void Draw(SpriteBatch spriteBatch)

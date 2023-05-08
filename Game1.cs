@@ -8,13 +8,19 @@ namespace Lesson_6___Summative
 {
     public class Game1 : Game
     {
-        List<Texture2D> dinoTextures;
+        List<Texture2D> dinoTexturesWalking, dinoTexturesStanding;
         Texture2D dinoSpritesheet;
 
         Texture2D groundTexture, treesAndBushesTexture, distantTreesTexture, bushesTexture, hill1Texture, hill2Texture;
         Texture2D hugeCloudsTexture, cloudsTexture, distantClouds1Texture, distantClouds2Texture, backgroundTexture;
 
         Texture2D button;
+
+        Texture2D planeTexture;
+
+        Rectangle planeRect;
+
+        Vector2 planeSpeed;
 
         Rectangle buttonRect;
 
@@ -41,6 +47,8 @@ namespace Lesson_6___Summative
 
         SpriteFont mousePos;
 
+        bool walkRun = false;
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -62,7 +70,8 @@ namespace Lesson_6___Summative
             _graphics.ApplyChanges();
 
             dinoRect = new Rectangle(-100, 600, 72, 72);
-            dinoTextures = new List<Texture2D>();
+            dinoTexturesWalking = new List<Texture2D>();
+            dinoTexturesStanding = new List<Texture2D>();
             dinoIndex = 0;
 
             dinoSpeed = new Vector2(1, 0);
@@ -73,17 +82,19 @@ namespace Lesson_6___Summative
 
             buttonRect = new Rectangle(200, 200, 405, 195);
 
+            planeRect = new Rectangle(800, 500, 100, 100);
+
             base.Initialize();
-            backgrounds.Add(new BackgroundParralax(distantClouds2Texture, 0, new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(distantClouds1Texture, 0, new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(cloudsTexture, 0, new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(hugeCloudsTexture, 0, new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(hill2Texture, 0, new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(hill1Texture, 0, new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(bushesTexture, 0, new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(distantTreesTexture, 0, new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(treesAndBushesTexture, 0, new Rectangle(0, 0, 1280, 720)));
-            backgrounds.Add(new BackgroundParralax(groundTexture, -3, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(distantClouds2Texture, -0.1, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(distantClouds1Texture, -0.2, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(cloudsTexture, -0.3, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(hugeCloudsTexture, -0.4, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(hill2Texture, -0.5, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(hill1Texture, -0.6, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(bushesTexture, -0.7, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(distantTreesTexture, -0.8, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(treesAndBushesTexture, -0.9, new Rectangle(0, 0, 1280, 720)));
+            backgrounds.Add(new BackgroundParralax(groundTexture, -1, new Rectangle(0, 0, 1280, 720)));
 
         }
 
@@ -111,6 +122,8 @@ namespace Lesson_6___Summative
 
             mousePos = Content.Load<SpriteFont>("mouse_pos");
 
+            planeTexture = Content.Load<Texture2D>("plane");
+
             
             Texture2D cropTexture;
             Rectangle sourceRect;
@@ -119,7 +132,7 @@ namespace Lesson_6___Summative
             int height = dinoSpritesheet.Height;
 
            
-            for (int x = 5; x < 10; x++)
+            for (int x = 4; x < 10; x++)
             {
                 sourceRect = new Rectangle(x * width, 0, width, height);
                 cropTexture = new Texture2D(GraphicsDevice, width, height);
@@ -129,9 +142,22 @@ namespace Lesson_6___Summative
 
                 cropTexture.SetData(data);
 
-                dinoTextures.Add(cropTexture);
+                dinoTexturesWalking.Add(cropTexture);
             }
-            
+
+            for (int x = 0; x < 3; x++)
+            {
+                sourceRect = new Rectangle(x * width, 0, width, height);
+                cropTexture = new Texture2D(GraphicsDevice, width, height);
+
+                Color[] data = new Color[width * height];
+                dinoSpritesheet.GetData(0, sourceRect, data, 0, data.Length);
+
+                cropTexture.SetData(data);
+
+                dinoTexturesStanding.Add(cropTexture);
+            }
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -161,18 +187,15 @@ namespace Lesson_6___Summative
             {
                 dinoIndex += 0.15;
 
-                //all i need for updating background vvv
-
                 for (int i = 0; i < 10; i++)
                     backgrounds[i].Update();
 
-
-
-
-                if (dinoIndex >= dinoTextures.Count - 0.5)
+                if (dinoIndex >= dinoTexturesWalking.Count - 0.5)
                     dinoIndex = 0;
 
                 dinoRect.X += (int)dinoSpeed.X;
+
+
             }
 
             else if (screen == Screen.Outro)
@@ -202,7 +225,9 @@ namespace Lesson_6___Summative
                 foreach (BackgroundParralax background in backgrounds)
                     background.Draw(_spriteBatch);
 
-                _spriteBatch.Draw(dinoTextures[(int)Math.Round(dinoIndex)], dinoRect, Color.White);
+
+                _spriteBatch.Draw(dinoTexturesWalking[(int)Math.Round(dinoIndex)], dinoRect, Color.White);
+
 
             }
             else if (screen == Screen.Outro)
