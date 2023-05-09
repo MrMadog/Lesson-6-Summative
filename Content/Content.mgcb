@@ -157,6 +157,18 @@
 /processorParam:TextureFormat=Color
 /build:../../../Resources/dino_sprites.png;dino_sprites.png
 
+#begin ../../../Resources/plane.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../../Resources/plane.png;plane.png
+
 #begin mouse_pos.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -176,7 +188,7 @@
 /processorParam:TextureFormat=Color
 /build:SmileyWalk.png
 
-#begin SmileyWalk.png
+#begin start_button_clicked.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -186,7 +198,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:SmileyWalk.png
+/build:start_button_clicked.png
 
 #begin start_button.png
 /importer:TextureImporter
