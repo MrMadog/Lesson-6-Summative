@@ -14,17 +14,21 @@ namespace Lesson_6___Summative
         Texture2D groundTexture, treesAndBushesTexture, distantTreesTexture, bushesTexture, hill1Texture, hill2Texture;
         Texture2D hugeCloudsTexture, cloudsTexture, distantClouds1Texture, distantClouds2Texture, backgroundTexture;
 
-        Texture2D buttonTexture, buttonPressed, buttonUnpressed;
+        Texture2D buttonTexture, buttonPressed, buttonUnpressed, exitButtonTexture, exitButtonPressed, exitButtonUnpressed;
 
         Texture2D planeTexture;
+
+        Texture2D introScreen;
 
         Rectangle planeRect;
 
         Vector2 planeSpeed;
 
-        Rectangle buttonRect;
+        Rectangle buttonRect, exitButtonRect;
 
         double dinoIndex;
+
+        SpriteFont titleFont;
 
         List<BackgroundParralax> backgrounds;
 
@@ -34,6 +38,7 @@ namespace Lesson_6___Summative
 
         Rectangle bgRect;
 
+        Color bgColour;
 
         MouseState mouseState, prevMouseState;
         enum Screen
@@ -44,10 +49,6 @@ namespace Lesson_6___Summative
         Screen screen;
 
         Point mouse;
-
-        SpriteFont mousePos;
-
-        bool walkRun = false;
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -80,11 +81,15 @@ namespace Lesson_6___Summative
 
             bgRect = new Rectangle(0, 0, 1280, 720);
 
-            buttonRect = new Rectangle(200, 200, 405, 195);
+            buttonRect = new Rectangle(400, 500, 405, 195);
+
+            exitButtonRect = new Rectangle(1130, 20, 124, 60);
 
             planeRect = new Rectangle(800, 500, 10, 5);
 
             planeSpeed = new Vector2(-2, -3);
+
+            bgColour = Color.CornflowerBlue;
 
             base.Initialize();
             backgrounds.Add(new BackgroundParralax(distantClouds2Texture, -0.1, new Rectangle(0, 0, 1280, 720)));
@@ -122,10 +127,14 @@ namespace Lesson_6___Summative
 
             buttonUnpressed = Content.Load<Texture2D>("start_button");
             buttonPressed = Content.Load<Texture2D>("start_button_clicked");
-
-            mousePos = Content.Load<SpriteFont>("mouse_pos");
+            exitButtonUnpressed = Content.Load<Texture2D>("exit_button");
+            exitButtonPressed = Content.Load<Texture2D>("exit_button_clicked");
 
             planeTexture = Content.Load<Texture2D>("plane");
+
+            introScreen = Content.Load<Texture2D>("intro_screen");
+
+            titleFont = Content.Load<SpriteFont>("title_font");
 
 
             Texture2D cropTexture;
@@ -177,16 +186,35 @@ namespace Lesson_6___Summative
             if (screen == Screen.Intro)
             {
                 buttonTexture = buttonUnpressed;
+                exitButtonTexture = exitButtonUnpressed;
+
                 if (buttonRect.Contains(mouse))
                 {
-                    if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+                    if (prevMouseState.LeftButton == ButtonState.Pressed)
                     {
-                        screen = Screen.Game;
-                    }
+                        buttonTexture = buttonPressed;
 
+                        if (mouseState.LeftButton == ButtonState.Released)
+                        {
+                            screen = Screen.Game;
+                        }
+                    }
                     prevMouseState = mouseState;
                 }
 
+                if (exitButtonRect.Contains(mouse))
+                {
+                    if (prevMouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        exitButtonTexture = exitButtonPressed;
+
+                        if (mouseState.LeftButton == ButtonState.Released)
+                        {
+                            screen = Screen.Outro;
+                        }
+                    }
+                    prevMouseState = mouseState;
+                }
             }
 
             else if (screen == Screen.Game)
@@ -205,11 +233,43 @@ namespace Lesson_6___Summative
                 planeRect.Y += (int)planeSpeed.Y;
                 planeRect.Width += 2;
                 planeRect.Height += 2;
+
+
+
+                if (exitButtonRect.Contains(mouse))
+                {
+                    if (prevMouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        exitButtonTexture = exitButtonPressed;
+
+                        if (mouseState.LeftButton == ButtonState.Released)
+                        {
+                            screen = Screen.Outro;
+                        }
+                    }
+                    prevMouseState = mouseState;
+                }
             }
 
             else if (screen == Screen.Outro)
             {
 
+
+
+
+                if (exitButtonRect.Contains(mouse))
+                {
+                    if (prevMouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        exitButtonTexture = exitButtonPressed;
+
+                        if (mouseState.LeftButton == ButtonState.Released)
+                        {
+                            Exit();
+                        }
+                    }
+                    prevMouseState = mouseState;
+                }
             }
 
             base.Update(gameTime);
@@ -217,14 +277,16 @@ namespace Lesson_6___Summative
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
+            GraphicsDevice.Clear(bgColour);
 
             _spriteBatch.Begin();
 
             if (screen == Screen.Intro)
             {
+                _spriteBatch.Draw(introScreen, new Rectangle(0, 0, 1280, 720), Color.White);
                 _spriteBatch.Draw(buttonTexture, buttonRect, Color.White);
-                _spriteBatch.DrawString(mousePos, $"{mouseState.X}, {mouseState.Y}", new Vector2(50, 150), Color.Black);
+                _spriteBatch.Draw(exitButtonTexture, exitButtonRect, Color.White);
+                _spriteBatch.DrawString(titleFont, "Dino Game", new Vector2(100, 50), Color.Black);
             }
 
             else if (screen == Screen.Game)
@@ -238,9 +300,13 @@ namespace Lesson_6___Summative
                 _spriteBatch.Draw(dinoTexturesWalking[(int)Math.Round(dinoIndex)], dinoRect, Color.White);
 
                 _spriteBatch.Draw(planeTexture, planeRect, Color.White);
+
+                _spriteBatch.Draw(exitButtonTexture, exitButtonRect, Color.White);
+
             }
             else if (screen == Screen.Outro)
             {
+                _spriteBatch.Draw(exitButtonTexture, exitButtonRect, Color.White);
 
             }
 
