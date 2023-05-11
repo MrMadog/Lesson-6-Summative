@@ -8,7 +8,7 @@ namespace Lesson_6___Summative
 {
     public class Game1 : Game
     {
-        List<Texture2D> dinoTexturesWalking, dinoTexturesStanding;
+        List<Texture2D> dinoTextures;
         Texture2D dinoSpritesheet;
 
         Texture2D groundTexture, treesAndBushesTexture, distantTreesTexture, bushesTexture, hill1Texture, hill2Texture;
@@ -71,8 +71,7 @@ namespace Lesson_6___Summative
             _graphics.ApplyChanges();
 
             dinoRect = new Rectangle(-100, 600, 72, 72);
-            dinoTexturesWalking = new List<Texture2D>();
-            dinoTexturesStanding = new List<Texture2D>();
+            dinoTextures = new List<Texture2D>();
             dinoIndex = 0;
 
             dinoSpeed = new Vector2(1, 0);
@@ -85,7 +84,7 @@ namespace Lesson_6___Summative
 
             exitButtonRect = new Rectangle(1130, 20, 124, 60);
 
-            planeRect = new Rectangle(800, 500, 10, 5);
+            planeRect = new Rectangle(800, 400, 12, 5);
 
             planeSpeed = new Vector2(-2, -3);
 
@@ -154,22 +153,8 @@ namespace Lesson_6___Summative
 
                 cropTexture.SetData(data);
 
-                dinoTexturesWalking.Add(cropTexture);
+                dinoTextures.Add(cropTexture);
             }
-
-            for (int x = 0; x < 3; x++)
-            {
-                sourceRect = new Rectangle(x * width, 0, width, height);
-                cropTexture = new Texture2D(GraphicsDevice, width, height);
-
-                Color[] data = new Color[width * height];
-                dinoSpritesheet.GetData(0, sourceRect, data, 0, data.Length);
-
-                cropTexture.SetData(data);
-
-                dinoTexturesStanding.Add(cropTexture);
-            }
-
         }
 
         protected override void Update(GameTime gameTime)
@@ -219,21 +204,26 @@ namespace Lesson_6___Summative
 
             else if (screen == Screen.Game)
             {
+                exitButtonTexture = exitButtonUnpressed;
+
                 dinoIndex += 0.15;
 
                 for (int i = 0; i < 10; i++)
                     backgrounds[i].Update();
 
-                if (dinoIndex >= dinoTexturesWalking.Count - 0.5)
+                if (dinoIndex >= dinoTextures.Count - 0.5)
                     dinoIndex = 0;
 
                 dinoRect.X += (int)dinoSpeed.X;
 
-                planeRect.X += (int)planeSpeed.X;
-                planeRect.Y += (int)planeSpeed.Y;
-                planeRect.Width += 2;
-                planeRect.Height += 2;
 
+                if (dinoRect.X >= 300)
+                {
+                    planeRect.X += (int)planeSpeed.X;
+                    planeRect.Y += (int)planeSpeed.Y;
+                    planeRect.Width += 2;
+                    planeRect.Height += 2;
+                }
 
 
                 if (exitButtonRect.Contains(mouse))
@@ -253,7 +243,7 @@ namespace Lesson_6___Summative
 
             else if (screen == Screen.Outro)
             {
-
+                exitButtonTexture = exitButtonUnpressed;
 
 
 
@@ -296,10 +286,10 @@ namespace Lesson_6___Summative
                 foreach (BackgroundParralax background in backgrounds)
                     background.Draw(_spriteBatch);
 
-
-                _spriteBatch.Draw(dinoTexturesWalking[(int)Math.Round(dinoIndex)], dinoRect, Color.White);
-
-                _spriteBatch.Draw(planeTexture, planeRect, Color.White);
+                _spriteBatch.Draw(dinoTextures[(int)Math.Round(dinoIndex)], dinoRect, Color.White);
+                
+                if (dinoRect.X >= 300)
+                     _spriteBatch.Draw(planeTexture, planeRect, Color.White);
 
                 _spriteBatch.Draw(exitButtonTexture, exitButtonRect, Color.White);
 
@@ -307,7 +297,7 @@ namespace Lesson_6___Summative
             else if (screen == Screen.Outro)
             {
                 _spriteBatch.Draw(exitButtonTexture, exitButtonRect, Color.White);
-
+                _spriteBatch.Draw()
             }
 
             _spriteBatch.End();
