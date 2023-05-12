@@ -14,17 +14,18 @@ namespace Lesson_6___Summative
         Texture2D groundTexture, treesAndBushesTexture, distantTreesTexture, bushesTexture, hill1Texture, hill2Texture;
         Texture2D hugeCloudsTexture, cloudsTexture, distantClouds1Texture, distantClouds2Texture, backgroundTexture;
 
-        Texture2D buttonTexture, buttonPressed, buttonUnpressed, exitButtonTexture, exitButtonPressed, exitButtonUnpressed;
+        Texture2D buttonTexture, startButtonPressed, startButtonUnpressed, exitButtonTexture, exitButtonPressed, exitButtonUnpressed;
+        Texture2D menuButtonTexture, menuButtonUnpressed, menuButtonPressed;
 
         Texture2D planeTexture;
 
-        Texture2D introScreen;
+        Texture2D introScreen, outroScreen;
 
         Rectangle planeRect;
 
         Vector2 planeSpeed;
 
-        Rectangle buttonRect, exitButtonRect;
+        Rectangle startButtonRect, exitButtonRect, menuButtonRect, exitButtonRectOutro;
 
         double dinoIndex;
 
@@ -80,9 +81,10 @@ namespace Lesson_6___Summative
 
             bgRect = new Rectangle(0, 0, 1280, 720);
 
-            buttonRect = new Rectangle(400, 500, 405, 195);
-
-            exitButtonRect = new Rectangle(1130, 20, 124, 60);
+            startButtonRect = new Rectangle(440, 500, 400, 130);
+            exitButtonRect = new Rectangle(1130, 20, 96, 39);
+            exitButtonRectOutro = new Rectangle(528, 350, 224, 91);
+            menuButtonRect = new Rectangle(413, 500, 455, 91);
 
             planeRect = new Rectangle(800, 400, 12, 5);
 
@@ -124,14 +126,17 @@ namespace Lesson_6___Summative
             distantClouds2Texture = Content.Load<Texture2D>("_10_distant_clouds");
             backgroundTexture = Content.Load<Texture2D>("_11_background");
 
-            buttonUnpressed = Content.Load<Texture2D>("start_button");
-            buttonPressed = Content.Load<Texture2D>("start_button_clicked");
-            exitButtonUnpressed = Content.Load<Texture2D>("exit_button");
-            exitButtonPressed = Content.Load<Texture2D>("exit_button_clicked");
+            startButtonUnpressed = Content.Load<Texture2D>("SButton");
+            startButtonPressed = Content.Load<Texture2D>("SButtonPressed");
+            exitButtonUnpressed = Content.Load<Texture2D>("EButton");
+            exitButtonPressed = Content.Load<Texture2D>("EButtonPressed");
+            menuButtonUnpressed = Content.Load<Texture2D>("MMButton");
+            menuButtonPressed = Content.Load<Texture2D>("MMButtonPressed");
 
             planeTexture = Content.Load<Texture2D>("plane");
 
             introScreen = Content.Load<Texture2D>("intro_screen");
+            outroScreen = Content.Load<Texture2D>("outro_screen");
 
             titleFont = Content.Load<SpriteFont>("title_font");
 
@@ -170,14 +175,15 @@ namespace Lesson_6___Summative
 
             if (screen == Screen.Intro)
             {
-                buttonTexture = buttonUnpressed;
+                buttonTexture = startButtonUnpressed;
                 exitButtonTexture = exitButtonUnpressed;
+                menuButtonTexture = menuButtonUnpressed;
 
-                if (buttonRect.Contains(mouse))
+                if (startButtonRect.Contains(mouse))
                 {
                     if (prevMouseState.LeftButton == ButtonState.Pressed)
                     {
-                        buttonTexture = buttonPressed;
+                        buttonTexture = startButtonPressed;
 
                         if (mouseState.LeftButton == ButtonState.Released)
                         {
@@ -243,11 +249,12 @@ namespace Lesson_6___Summative
 
             else if (screen == Screen.Outro)
             {
+                dinoRect.X = -100;
+                planeRect = new Rectangle(800, 400, 12, 5);
                 exitButtonTexture = exitButtonUnpressed;
+                menuButtonTexture = menuButtonUnpressed;
 
-
-
-                if (exitButtonRect.Contains(mouse))
+                if (exitButtonRectOutro.Contains(mouse))
                 {
                     if (prevMouseState.LeftButton == ButtonState.Pressed)
                     {
@@ -256,6 +263,20 @@ namespace Lesson_6___Summative
                         if (mouseState.LeftButton == ButtonState.Released)
                         {
                             Exit();
+                        }
+                    }
+                    prevMouseState = mouseState;
+                }
+
+                if (menuButtonRect.Contains(mouse))
+                {
+                    if (prevMouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        menuButtonTexture = menuButtonPressed;
+
+                        if (mouseState.LeftButton == ButtonState.Released)
+                        {
+                            screen = Screen.Intro;
                         }
                     }
                     prevMouseState = mouseState;
@@ -274,9 +295,9 @@ namespace Lesson_6___Summative
             if (screen == Screen.Intro)
             {
                 _spriteBatch.Draw(introScreen, new Rectangle(0, 0, 1280, 720), Color.White);
-                _spriteBatch.Draw(buttonTexture, buttonRect, Color.White);
+                _spriteBatch.Draw(buttonTexture, startButtonRect, Color.White);
                 _spriteBatch.Draw(exitButtonTexture, exitButtonRect, Color.White);
-                _spriteBatch.DrawString(titleFont, "Dino Game", new Vector2(100, 50), Color.Black);
+                _spriteBatch.DrawString(titleFont, "Dino Animation", new Vector2(70, 70), Color.Black);
             }
 
             else if (screen == Screen.Game)
@@ -296,8 +317,9 @@ namespace Lesson_6___Summative
             }
             else if (screen == Screen.Outro)
             {
-                _spriteBatch.Draw(exitButtonTexture, exitButtonRect, Color.White);
-                _spriteBatch.Draw()
+                _spriteBatch.Draw(outroScreen, new Rectangle(0, 0, 1280, 720), Color.White);
+                _spriteBatch.Draw(exitButtonTexture, exitButtonRectOutro, Color.White);
+                _spriteBatch.Draw(menuButtonTexture, menuButtonRect, Color.White);
             }
 
             _spriteBatch.End();
