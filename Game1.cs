@@ -231,6 +231,8 @@ namespace Lesson_6___Summative
                     planeRect.Height += 2;
                 }
 
+                if (dinoRect.X > 1280)
+                    screen = Screen.Outro;
 
                 if (exitButtonRect.Contains(mouse))
                 {
